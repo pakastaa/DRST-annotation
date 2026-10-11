@@ -7,7 +7,8 @@ cd "$repo_dir"
 python -m py_compile \
   DRST/bench_v1/annotation_web/server.py \
   DRST/bench_v1/annotation_web/init_auth.py \
-  scripts/import_supabase.py
+  scripts/import_supabase.py \
+  scripts/bootstrap_supabase.py
 node --check DRST/bench_v1/annotation_web/static/app.js
 node --check pages/app.js
 

@@ -33,6 +33,11 @@ alter table public.annotation_tasks enable row level security;
 alter table public.annotation_events enable row level security;
 alter table public.annotation_reviews enable row level security;
 
+drop policy if exists "authenticated reviewers read tasks" on public.annotation_tasks;
+drop policy if exists "authenticated reviewers read events" on public.annotation_events;
+drop policy if exists "reviewers read own reviews" on public.annotation_reviews;
+drop policy if exists "reviewers add own reviews" on public.annotation_reviews;
+drop policy if exists "reviewers update own reviews" on public.annotation_reviews;
 create policy "authenticated reviewers read tasks" on public.annotation_tasks for select to authenticated using (true);
 create policy "authenticated reviewers read events" on public.annotation_events for select to authenticated using (true);
 create policy "reviewers read own reviews" on public.annotation_reviews for select to authenticated using (auth.uid() = user_id);
