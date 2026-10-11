@@ -16,6 +16,7 @@ initial_credentials.txt
 *.p12
 .env
 .env.*
+supabase/.env
 
 # Python/editor artifacts.
 __pycache__/
@@ -24,4 +25,3 @@ __pycache__/
 .idea/
 .vscode/
 .DS_Store
-

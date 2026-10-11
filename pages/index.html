@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="DRST-Bench 模型标注复核台">
+  <title>DRST-Bench 模型标注复核台</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <section id="loginView" class="login-shell">
+    <form id="loginForm" class="login-card">
+      <div class="brand-row"><div class="brand-mark">D</div><span>DRST-BENCH V1</span></div>
+      <h1>模型标注复核</h1>
+      <p class="lead">对照完整对话，复核模型给出的高明确度状态事件。</p>
+      <div class="login-steps"><span><b>1</b> 阅读对话</span><span><b>2</b> 检查证据</span><span><b>3</b> 保存复核</span></div>
+      <label>邮箱<input id="email" type="email" autocomplete="email" required></label>
+      <label>密码<input id="password" type="password" autocomplete="current-password" minlength="8" required></label>
+      <button type="submit" class="primary wide">登录</button>
+      <button id="signUpBtn" type="button" class="ghost wide">首次使用，注册账号</button>
+      <p class="privacy-note">只有已登录复核者可以读取任务与保存判断。</p>
+      <p id="loginError" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <div id="appView" class="app hidden">
+    <header>
+      <div class="brand-row"><span class="brand-mark small">D</span><strong>DRST 模型标注复核</strong></div>
+      <div class="progress-wrap"><div id="progressText">0 / 0 已提交</div><div class="progress"><i id="progressBar"></i></div></div>
+      <div class="header-actions"><span id="userLabel"></span><button id="helpBtn" class="ghost compact">使用说明</button><button id="logoutBtn" class="ghost compact">退出</button></div>
+    </header>
+    <div class="layout">
+      <aside>
+        <div class="aside-head">
+          <input id="taskSearch" placeholder="搜索角色或任务 ID" aria-label="搜索角色或任务 ID">
+          <div class="filter-row"><select id="taskFilter"><option value="all">全部状态</option><option value="unstarted">未开始</option><option value="draft">草稿</option><option value="submitted">已提交</option></select><select id="sourceFilter"><option value="all">全部来源</option></select></div>
+          <div id="taskSummary" class="task-summary"></div>
+        </div>
+        <div id="taskList" class="task-list"></div>
+      </aside>
+      <main id="mainPanel"><div class="empty-state"><div class="empty-icon">✓</div><h2>从左侧选择一条任务</h2><p>先阅读对话，再逐条检查模型提出的状态变化。</p></div></main>
+    </div>
+  </div>
+
+  <dialog id="helpDialog"><div class="dialog-head"><div><p class="eyebrow">QUICK GUIDE</p><h2>复核说明</h2></div><button id="closeHelp" class="icon-button" aria-label="关闭">×</button></div><ol class="guide-list"><li><b>阅读完整对话。</b>浅黄色是目标角色回复。</li><li><b>检查前态。</b>必须由目标角色此前发言明确支持。</li><li><b>检查后态。</b>必须由变化轮目标角色回复明确支持。</li><li><b>逐条决定。</b>保留、修改、存疑或排除。</li><li><b>保存或提交。</b>提交前需处理全部候选。</li></ol></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
