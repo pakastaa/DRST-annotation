@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>DRST-Bench 模型标注复核台</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <section id="loginView" class="login-shell">
+    <form id="loginForm" class="login-card">
+      <div class="brand-row"><div class="brand-mark">D</div><span>DRST-BENCH V1</span></div>
+      <h1>模型标注复核</h1>
+      <p class="lead">对照原始对话，复核重新设计的高明确度状态事件。</p>
+      <div class="login-steps" aria-label="标注流程">
+        <span><b>1</b> 阅读对话</span><span><b>2</b> 检查建议</span><span><b>3</b> 通过或修正</span>
+      </div>
+      <label>用户名<input id="username" autocomplete="username" required></label>
+      <label>密码<input id="password" type="password" autocomplete="current-password" required></label>
+      <button type="submit" class="primary wide">登录</button>
+      <p class="privacy-note">只有您确认保留或修正的事件，才会用于后续模型重跑。</p>
+      <p id="loginError" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <div id="appView" class="app hidden">
+    <header>
+      <div class="brand-row"><span class="brand-mark small">D</span><strong>DRST 模型标注复核</strong></div>
+      <div class="progress-wrap">
+        <div id="progressText">0 / 80 已提交</div>
+        <div class="progress" aria-label="标注进度"><i id="progressBar"></i></div>
+      </div>
+      <div class="header-actions">
+        <span id="userLabel"></span>
+        <button id="helpBtn" class="ghost compact">使用说明</button>
+        <button id="exportBtn" class="ghost compact hidden">导出</button>
+        <button id="logoutBtn" class="ghost compact">退出</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside>
+        <div class="aside-head">
+          <input id="taskSearch" placeholder="搜索角色或任务 ID" aria-label="搜索任务">
+          <div class="filter-row">
+            <select id="taskFilter" aria-label="按状态筛选">
+              <option value="all">全部状态</option>
+              <option value="unstarted">未开始</option>
+              <option value="draft">草稿</option>
+              <option value="submitted">已提交</option>
+            </select>
+            <select id="sourceFilter" aria-label="按来源筛选"><option value="all">全部来源</option></select>
+          </div>
+          <div id="taskSummary" class="task-summary"></div>
+        </div>
+        <div id="taskList" class="task-list"></div>
+      </aside>
+      <main id="mainPanel">
+        <div class="empty-state">
+          <div class="empty-icon">✓</div>
+          <h2>从左侧选择一条任务</h2>
+          <p>先阅读对话，再逐条检查模型提出的状态变化。</p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="helpDialog">
+    <div class="dialog-head"><div><p class="eyebrow">QUICK GUIDE</p><h2>复核说明</h2></div><button id="closeHelp" class="icon-button" aria-label="关闭">×</button></div>
+    <ol class="guide-list">
+      <li><b>阅读全文。</b>目标角色的回复是浅黄色，对方发言是白色。</li>
+      <li><b>检查前态。</b>前态必须由目标角色本人此前的话语明确支持。</li>
+      <li><b>检查后态。</b>后态必须由变化轮次的目标角色回复明确支持。</li>
+      <li><b>判断价值。</b>保留有明确变化且能测试动态状态追踪能力的问题。</li>
+      <li><b>逐条决定。</b>选择“保留”“修改”“存疑”或“排除”。</li>
+      <li><b>保存或提交。</b>草稿可以继续修改；正式提交前必须处理全部候选事件。</li>
+    </ol>
+    <div class="rule-box"><strong>注意</strong><span>“保留”表示前态、后态、状态对象、变化边界和评测问题均正确；任何字段需要调整时请选择“修改”。</span></div>
+    <details>
+      <summary>四个状态维度</summary>
+      <dl class="dimension-help">
+        <div><dt>belief 信念</dt><dd>角色是否接受某个命题。</dd></div>
+        <div><dt>trust 信任</dt><dd>角色是否信任某个人。</dd></div>
+        <div><dt>commitment 承诺</dt><dd>角色对某个行动的承诺程度。</dd></div>
+        <div><dt>emotion 情绪</dt><dd>角色当前的主要情绪，object 固定为 self。</dd></div>
+      </dl>
+    </details>
+  </dialog>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

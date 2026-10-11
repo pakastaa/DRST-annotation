@@ -1,0 +1,27 @@
+# Runtime data and experiment artifacts must remain on the server.
+dataset/
+outputs/
+runtime/
+*.jsonl
+*.sqlite3
+*.sqlite3-*
+*.db
+
+# Authentication and TLS material.
+users.json
+initial_credentials.txt
+*.key
+*.pem
+*.crt
+*.p12
+.env
+.env.*
+
+# Python/editor artifacts.
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+.DS_Store
+

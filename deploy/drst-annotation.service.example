@@ -1,0 +1,16 @@
+[Unit]
+Description=DRST annotation review web service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/mnt/hdd1/yangyechenhao/services/DRST-annotation
+ExecStart=/home/yangyechenhao/data/miniconda3/envs/rpa/bin/python -u DRST/bench_v1/annotation_web/server.py --host 0.0.0.0 --port 8765 --data <WORKSPACE>/dataset/DRST_bench_v1/natural/trajectories.jsonl --events <WORKSPACE>/dataset/DRST_bench_v1/probes/review_v3/strict_events.jsonl --state-dir <WORKSPACE>/dataset/DRST_bench_v1/annotations --db <WORKSPACE>/dataset/DRST_bench_v1/annotations/review_v3.sqlite3 --only-with-events --auth <WORKSPACE>/dataset/DRST_bench_v1/annotations/users.json --cert <WORKSPACE>/dataset/DRST_bench_v1/annotations/server.crt --key <WORKSPACE>/dataset/DRST_bench_v1/annotations/server.key
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=true
+PrivateTmp=true
+UMask=0077
+
+[Install]
+WantedBy=default.target
